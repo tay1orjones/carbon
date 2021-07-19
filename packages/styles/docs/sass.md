@@ -12,6 +12,7 @@
 - [Config](#config)
 - [Feature Flags](#feature-flags)
 - [Grid](#grid)
+<<<<<<< HEAD
   - [Using the grid](#using-the-grid)
   - [Classes provided](#classes-provided)
   - [Grid Mixins](#grid-mixins)
@@ -19,6 +20,13 @@
 - [Reset](#reset)
 - [Spacing](#spacing)
 - [Theming](#theming)
+=======
+- [Motion](#motion)
+- [Reset](#reset)
+- [Spacing](#spacing)
+- [Themes](#themes)
+- [Theme](#theme)
+>>>>>>> f837fbcfbd250134a32ae36d38f4537c578bb3e9
 - [Type](#type)
 - [Components](#components)
 - [Utilities](#utilities)
@@ -53,8 +61,13 @@ between version updates.
 | [`scss/motion`](#motion)               | Helper function, mixins, and tokens for motion             |
 | [`scss/reset`](#reset)                 | A CSS Reset                                                |
 | [`scss/spacing`](#spacing)             | Variables for the spacing scale                            |
+<<<<<<< HEAD
 | [`scss/theme`](#theming)               | Tokens for the current theme                               |
 | [`scss/themes`](#theming)              | Reference the default themes from the Carbon Design System |
+=======
+| [`scss/theme`](#theme)                 | Tokens for the current theme                               |
+| [`scss/themes`](#themes)               | Reference the default themes from the Carbon Design System |
+>>>>>>> f837fbcfbd250134a32ae36d38f4537c578bb3e9
 | [`scss/type`](#type)                   | Type tokens and helpers                                    |
 | [`scss/components/`](#components)      | A directory containing component styles                    |
 | [`scss/utilities/`](#utilities)        | A directory containing common CSS utilities                |
@@ -89,6 +102,7 @@ between version updates.
 | :--------------------------------- | :---------------- |
 | `@use '@carbon/styles/scss/grid';` | `scss/_grid.scss` |
 
+<<<<<<< HEAD
 ### Using the grid
 
 This package `@forward`s the styles defined in the [`@carbon/grid`](https://github.com/carbon-design-system/carbon/tree/main/packages/grid) package. The full source for Carbon grid styles can be found there alongside more comprehensive documentation on package contents, configuration, and usage.
@@ -162,6 +176,105 @@ In the event that you'd like to configure your own classes for portions of the g
 | :----------------------------------- | :------------------ |
 | `@use '@carbon/styles/scss/theme';`  | `scss/_theme.scss`  |
 | `@use '@carbon/styles/scss/themes';` | `scss/_themes.scss` |
+=======
+## Motion
+
+| Import                               | Filepath            |
+| :----------------------------------- | :------------------ |
+| `@use '@carbon/styles/scss/motion';` | `scss/_motion.scss` |
+
+## Reset
+
+| Import                              | Filepath           |
+| :---------------------------------- | :----------------- |
+| `@use '@carbon/styles/scss/reset';` | `scss/_reset.scss` |
+
+## Spacing
+
+| Import                                | Filepath             |
+| :------------------------------------ | :------------------- |
+| `@use '@carbon/styles/scss/spacing';` | `scss/_spacing.scss` |
+
+## Themes
+
+| Import                               | Filepath            |
+| :----------------------------------- | :------------------ |
+| `@use '@carbon/styles/scss/themes';` | `scss/_themes.scss` |
+
+This entrypoint re-exports the `themes` entrypoint from the `@carbon/themes`. it
+provides access to the theme variables built for the Carbon Design System.
+
+These theme variables can be used in the following way:
+
+```scss
+@use '@carbon/styles/scss/themes';
+
+// themes.$white
+// themes.$g10
+// themes.$g90
+// themes.$g100
+```
+
+## Theme
+
+| Import                              | Filepath           |
+| :---------------------------------- | :----------------- |
+| `@use '@carbon/styles/scss/theme';` | `scss/_theme.scss` |
+
+This entrypoint re-exports the `theme` entrypoint from the `@carbon/themes`.
+This entrypoint exports all of the design tokens as Sass Variables, as well as
+helpers for you to interact with the theme.
+
+To use a design token from this entrypoint, you can include the filepath and
+reference it as a variable.
+
+```scss
+@use '@carbon/styles/scss/theme';
+
+body {
+  background: theme.$background;
+}
+```
+
+The value of the `theme.$background` token is a CSS Custom Property. For
+example, `theme.$background` would have the value `var(--cds-background)`. To
+get the value of a token, you will need to use the `theme.get` function
+described below.
+
+For a full list of tokens available, check out our
+[themes documentation](../../themes/docs/sass.md#tokens).
+
+There are also some helpers that you can use from this entrypoint. These
+include:
+
+- `theme.get` to get access to the value of a token from the theme
+- `theme.extend` to extend the current theme with new values
+
+You can use these in the following way:
+
+```scss
+@use '@carbon/styles/scss/theme';
+
+@include theme.extend(
+  (
+    custom-token: #000000,
+  )
+);
+
+.my-selector {
+  background: rgba(theme.get('custom-token'), 0.1);
+}
+```
+
+**Configuration**
+
+The `@carbon/styles/scss/theme` entrypoint can be configured with the following
+options:
+
+- `$theme` to set the current theme
+- `$fallback` to set the fallback theme. This value is used to get values of
+  tokens if they are not defined in the current `$theme`
+>>>>>>> f837fbcfbd250134a32ae36d38f4537c578bb3e9
 
 ## Type
 
@@ -171,6 +284,27 @@ In the event that you'd like to configure your own classes for portions of the g
 
 ## Components
 
+<<<<<<< HEAD
+=======
+All of the styles for the components in the Carbon Design System live in the
+`scss/components` directory. You can include all of the styles for a component
+by including its entrypoint file. For a full list of component styles that you
+can import, check out the files table below.
+
+**Component tokens**
+
+In some situations, you may want to change the tokens for a specific component.
+To do so you will need to configure the module and provide the tokens you would
+like to see changed. For example, if you wanted to change the component token
+`button-separator` for `button` you would do the following:
+
+```scss
+@use '@carbon/styles/scss/components/button' with (
+  $button-separator: #e4e4e4,
+);
+```
+
+>>>>>>> f837fbcfbd250134a32ae36d38f4537c578bb3e9
 **Files**
 
 | Component | Import                                             | File                                                        |
@@ -251,4 +385,8 @@ export default {
     },
   },
 };
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> f837fbcfbd250134a32ae36d38f4537c578bb3e9
