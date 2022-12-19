@@ -25,7 +25,7 @@ import deprecate from '../../prop-types/deprecate';
 import { usePrefix } from '../../internal/usePrefix';
 import { FormContext } from '../FluidForm';
 
-const defaultItemToString = (item) => {
+const test = (item) => {
   if (typeof item === 'string') {
     return item;
   }
