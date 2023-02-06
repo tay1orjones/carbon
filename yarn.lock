@@ -2189,7 +2189,7 @@ __metadata:
     react-dom: ^16.9.0
     resolve: ^1.12.0
     sass: ^1.51.0
-    tabbable: ^4.0.0
+    tabbable: ^6.0.1
   peerDependencies:
     react-dom: ^16.9.0 || ^17.0.1
   languageName: unknown
@@ -30493,10 +30493,10 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"tabbable@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "tabbable@npm:4.0.0"
-  checksum: cbe1acbdabbe0744ae0088cf5133c3c36a9ebca0b670e00c1e117afaeb209d4f141368811973337b914ad1486a3b71a1ed781b698496cb4844e1804cb062baa9
+"tabbable@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "tabbable@npm:6.0.1"
+  checksum: 65e378ad69a97416f2fdce34ade11b8ff68b33d9b2d978920a9d285c77e1bb88cb35113a8f00af8c4f0163d788d451a48840a216fa918d6a3f0c554951deb984
   languageName: node
   linkType: hard
 
