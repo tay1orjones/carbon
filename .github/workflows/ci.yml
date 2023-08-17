@@ -223,3 +223,18 @@ jobs:
         with:
           name: playwright-report
           path: .playwright
+
+  stackblitz-preview:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    environment:
+      name: stackblitz preview
+      # Preserve url structure w/out prettier
+      # prettier-ignore
+      url: https://stackblitz.com/github/carbon-design-system/carbon/tree/${{ github.sha }}/examples/vite/
+    steps:
+      - name: Generate job summary
+        run: |
+          echo "### Stackblitz preview with SHA ${{ github.sha }} :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+          echo "[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/carbon-design-system/carbon/tree/${{ github.sha }}/examples/vite/)" >> $GITHUB_STEP_SUMMARY
