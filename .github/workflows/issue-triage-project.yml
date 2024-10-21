@@ -1,0 +1,127 @@
+name: Issue triage w/ projects
+on:
+  issues:
+    types:
+      # This workflow only runs on issue open
+      # because there are a ton of race conditions
+      # when modifying existing issues.
+      #
+      # This also ensures that any fields set
+      # _after_ creation are not overwritten by
+      # these automations.
+      - opened
+
+env:
+  ISSUE_NUMBER: ${{ github.event.issue.number }}
+  ISSUE_URL: ${{ github.event.issue.html_url }}
+  OWNER: ${{ github.repository_owner }}
+  REPOSITORY: ${{ github.repository }}
+
+  PROJECT_ID: 39
+  ITEM_FETCH_LIMIT: 1200
+
+  STATUS_FIELD_ID: PVTSSF_lADOAYA3Ss1Nv84AAiOJ
+  STATUS_TRIAGE: 30e36cef
+
+  AREA_FIELD_ID: PVTSSF_lADOAYA3Ss1Nv84BfRL4
+  AREA_WEBSITE: 113a0859
+
+  ROLE_FIELD_ID: PVTSSF_lADOAYA3Ss1Nv84BmahE
+
+  LABEL_TRIAGE: 'status: needs triage 🕵️‍♀️'
+  LABEL_REACT: 'package: @carbon/react'
+  LABEL_WEB_COMPONENTS: 'package: @carbon/web-components'
+
+jobs:
+  setup-variables:
+    name: Set up environment variables
+    runs-on: ubuntu-latest
+    outputs:
+      token: ${{ steps.generate_token.outputs.token}}
+      issue_id: ${{ steps.get_issue_id.outputs.issue_id }}
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+      - name: Get issue id in project
+        id: get_issue_id
+        run: |
+          ISSUE_ID=$(gh project item-list $PROJECT_ID --owner=$OWNER --limit=$ITEM_FETCH_LIMIT --format=json --jq ".items[] | select(.content.number == $ISSUE_NUMBER and .content.repository == $REPOSITORY) | .id" -r)
+          if [ -z "$ISSUE_ID" ]; then
+            echo "Issue ID not found for issue number $ISSUE_NUMBER"
+            exit 1
+          fi
+          echo "Issue ID is $ISSUE_ID"
+          echo "issue_id=$ISSUE_ID" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+      - name: Get issue body
+        id: get_issue_body
+        run: |
+          ISSUE_BODY=$(gh issue view $ISSUE_NUMBER --repo $REPOSITORY --json body)
+          echo "Issue body is $ISSUE_BODY"
+          echo "issue_body=$ISSUE_BODY" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+
+  set-needs-triage:
+    needs: setup-variables
+    runs-on: ubuntu-latest
+    steps:
+      - id: status-field
+        run:
+          gh project item-edit --project-id $PROJECT_ID --id $ISSUE_ID
+          --field-id $STATUS_FIELD_ID --single-select-option-id $STATUS_TRIAGE
+        env:
+          GH_TOKEN: ${{ needs.setup-variables.outputs.token }}
+          $ISSUE_ID: ${{ needs.get_issue_id.outputs.issue_id }}
+      - id: triage-label
+        run:
+          gh issue edit $ISSUE_NUMBER --repo $REPOSITORY --add-label
+          $LABEL_TRIAGE
+        env:
+          GH_TOKEN: ${{ needs.setup-variables.outputs.token }}
+
+          # TODO: this needs some work to ensure that the required variables, repo, etc. can be passed in from carbon-website since it's not going to be ran from the monorepo
+          # update the whole thing to be compatible as a reusable workflow
+          # TODO set area per label - if "bug" label is on the issue (do we get this on opening?) then set the support area and give it an initial estimate of 3
+  set-area-per-repo:
+    needs: setup-variables
+    runs-on: ubuntu-latest
+    steps:
+      - id: carbon-website
+        if: github.repository == 'carbon-design-system/carbon-website'
+        run:
+          gh project item-edit --project-id $PROJECT_ID --id $ISSUE_ID
+          --field-id $AREA_FIELD_ID --single-select-option-id $AREA_WEBSITE
+        env:
+          GH_TOKEN: ${{ needs.setup-variables.outputs.token }}
+          $ISSUE_ID: ${{ needs.get_issue_id.outputs.issue_id }}
+
+          ## TODO: this needs some work to ensure that the strings are handled properly
+  set-package-label:
+    needs: setup-variables
+    runs-on: ubuntu-latest
+    steps:
+      - id: carbon-react
+        if:
+          startsWith(needs.get_issue_body.outputs.issue_body.body,
+          '###Package\n\n@carbon/react\n\n')
+        run:
+          gh issue edit $ISSUE_NUMBER --repo $REPOSITORY --add-label
+          $LABEL_REACT
+        env:
+          GH_TOKEN: ${{ needs.setup-variables.outputs.token }}
+      - id: carbon-web-components
+        if:
+          startsWith(needs.get_issue_body.outputs.issue_body.body,
+          '###Package\n\n@carbon/web-components\n\n')
+        run:
+          gh issue edit $ISSUE_NUMBER --repo $REPOSITORY --add-label
+          $LABEL_WEB_COMPONENTS
+        env:
+          GH_TOKEN: ${{ needs.setup-variables.outputs.token }}
