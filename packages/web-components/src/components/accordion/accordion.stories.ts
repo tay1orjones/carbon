@@ -65,36 +65,31 @@ export const Default = {
   render: () => {
     return html`
       <cds-accordion>
-        <cds-accordion-item title="Section 1 title">
+        <cds-accordion-item title="Create an account">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Use your work email and a strong password to set up access. We’ll
+            send a verification link that expires in 30 minutes to keep things
+            secure.
           </p>
         </cds-accordion-item>
-        <cds-accordion-item title="Section 2 title">
+        <cds-accordion-item title="Choose delivery speed">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Decide between standard (3–5 business days) or express (next
+            business day). Cutoff for express orders is 5:00 p.m. local time.
           </p>
         </cds-accordion-item>
-        <cds-accordion-item title="Section 3 title">
+        <cds-accordion-item title="Add payment method">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Save a corporate card or purchase order number. Billing contacts can
+            be updated later from your account settings without re-entering card
+            details.
           </p>
         </cds-accordion-item>
-        <cds-accordion-item title="Section 4 title">
+        <cds-accordion-item title="Review and confirm">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Double-check the shipping address, contact phone, and any delivery
+            notes. We’ll email a receipt and tracking link once you submit the
+            order.
           </p>
         </cds-accordion-item>
       </cds-accordion>
@@ -127,36 +122,31 @@ export const Controlled = {
       >
 
       <cds-accordion>
-        <cds-accordion-item controlled title="Section 1 title">
+        <cds-accordion-item controlled title="Create an account">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Use your work email and a strong password to set up access. We’ll
+            send a verification link that expires in 30 minutes to keep things
+            secure.
           </p>
         </cds-accordion-item>
-        <cds-accordion-item controlled title="Section 2 title">
+        <cds-accordion-item controlled title="Choose delivery speed">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Decide between standard (3–5 business days) or express (next
+            business day). Cutoff for express orders is 5:00 p.m. local time.
           </p>
         </cds-accordion-item>
-        <cds-accordion-item controlled title="Section 3 title">
+        <cds-accordion-item controlled title="Add payment method">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Save a corporate card or purchase order number. Billing contacts can
+            be updated later from your account settings without re-entering card
+            details.
           </p>
         </cds-accordion-item>
-        <cds-accordion-item controlled title="Section 4 title">
+        <cds-accordion-item controlled title="Review and confirm">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Double-check the shipping address, contact phone, and any delivery
+            notes. We’ll email a receipt and tracking link once you submit the
+            order.
           </p>
         </cds-accordion-item>
       </cds-accordion>

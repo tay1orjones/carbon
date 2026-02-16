@@ -58,41 +58,35 @@ const sharedArgTypes = {
 
 export const Default = (args) => (
   <Accordion {...args}>
-    <AccordionItem title="Section 1 title">
+    <AccordionItem title="Create an account">
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
+        Use your work email and a strong password to set up access. We’ll send a
+        verification link that expires in 30 minutes to keep things secure.
       </p>
     </AccordionItem>
-    <AccordionItem title="Section 2 title">
+    <AccordionItem title="Choose delivery speed">
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
+        Decide between standard (3–5 business days) or express (next business
+        day). Cutoff for express orders is 5:00 p.m. local time.
       </p>
     </AccordionItem>
-    <AccordionItem title="Section 3 title">
+    <AccordionItem title="Add payment method">
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
+        Save a corporate card or purchase order number. Billing contacts can be
+        updated later from your account settings without re-entering card
+        details.
       </p>
     </AccordionItem>
     <AccordionItem
       title={
         <span>
-          Section 4 title (<em>the title can be a node</em>)
+          Review and confirm (<em>the title can be a node</em>)
         </span>
       }>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
+        Double-check the shipping address, contact phone, and any delivery
+        notes. We’ll email a receipt and tracking link once you submit the
+        order.
       </p>
     </AccordionItem>
   </Accordion>
@@ -129,36 +123,31 @@ export const Controlled = (args) => {
       </ButtonSet>
 
       <Accordion {...args}>
-        <AccordionItem title="Section 1 title" open={expandAll}>
+        <AccordionItem title="Create an account" open={expandAll}>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Use your work email and a strong password to set up access. We’ll
+            send a verification link that expires in 30 minutes to keep things
+            secure.
           </p>
         </AccordionItem>
-        <AccordionItem title="Section 2 title" open={expandAll}>
+        <AccordionItem title="Choose delivery speed" open={expandAll}>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Decide between standard (3–5 business days) or express (next
+            business day). Cutoff for express orders is 5:00 p.m. local time.
           </p>
         </AccordionItem>
-        <AccordionItem title="Section 3 title" open={expandAll}>
+        <AccordionItem title="Add payment method" open={expandAll}>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Save a corporate card or purchase order number. Billing contacts can
+            be updated later from your account settings without re-entering card
+            details.
           </p>
         </AccordionItem>
-        <AccordionItem title="Section 4 title" open={expandAll}>
+        <AccordionItem title="Review and confirm" open={expandAll}>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Double-check the shipping address, contact phone, and any delivery
+            notes. We’ll email a receipt and tracking link once you submit the
+            order.
           </p>
         </AccordionItem>
       </Accordion>
@@ -177,36 +166,31 @@ export const _WithLayer = (args) => {
   return (
     <WithLayer {...args}>
       <Accordion>
-        <AccordionItem title="Section 1 title">
+        <AccordionItem title="Create an account">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Use your work email and a strong password to set up access. We’ll
+            send a verification link that expires in 30 minutes to keep things
+            secure.
           </p>
         </AccordionItem>
-        <AccordionItem title="Section 2 title">
+        <AccordionItem title="Choose delivery speed">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Decide between standard (3–5 business days) or express (next
+            business day). Cutoff for express orders is 5:00 p.m. local time.
           </p>
         </AccordionItem>
-        <AccordionItem title="Section 3 title">
+        <AccordionItem title="Add payment method">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Save a corporate card or purchase order number. Billing contacts can
+            be updated later from your account settings without re-entering card
+            details.
           </p>
         </AccordionItem>
-        <AccordionItem title="Section 4 title">
+        <AccordionItem title="Review and confirm">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Double-check the shipping address, contact phone, and any delivery
+            notes. We’ll email a receipt and tracking link once you submit the
+            order.
           </p>
         </AccordionItem>
       </Accordion>
