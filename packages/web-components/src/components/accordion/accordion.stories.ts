@@ -26,6 +26,25 @@ const args = {
   size: ACCORDION_SIZE.MEDIUM,
 };
 
+const storySections = [
+  {
+    title: 'Account overview',
+    body: 'Review usage, active seats, and pending invitations so you understand what will change before updating the plan.',
+  },
+  {
+    title: 'Billing and payments',
+    body: 'Update the corporate card, add backup billing contacts, and download recent invoices for finance.',
+  },
+  {
+    title: 'Email preferences',
+    body: 'Choose which alerts need emails versus in-product notifications so the team only sees what matters.',
+  },
+  {
+    title: 'Data exports',
+    body: 'Schedule weekly CSV exports to your warehouse and confirm who receives a notification when a file is ready.',
+  },
+];
+
 const argTypes = {
   alignment: {
     control: 'select',
@@ -79,50 +98,16 @@ export const Default = {
         size="${size}"
         ?isFlush="${isFlush}"
         ?disabled="${disabled}">
-        <cds-accordion-item
-          title="Section 1 title"
-          @cds-accordion-item-beingtoggled="${onBeforeToggle}"
-          @cds-accordion-item-toggled="${onToggle}">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </cds-accordion-item>
-        <cds-accordion-item
-          title="Section 2 title"
-          @cds-accordion-item-beingtoggled="${onBeforeToggle}"
-          @cds-accordion-item-toggled="${onToggle}">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </cds-accordion-item>
-        <cds-accordion-item
-          title="Section 3 title"
-          @cds-accordion-item-beingtoggled="${onBeforeToggle}"
-          @cds-accordion-item-toggled="${onToggle}">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </cds-accordion-item>
-        <cds-accordion-item
-          title="Section 4 title"
-          @cds-accordion-item-beingtoggled="${onBeforeToggle}"
-          @cds-accordion-item-toggled="${onToggle}">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </cds-accordion-item>
+        ${storySections.map(
+          ({ title, body }) => html`
+            <cds-accordion-item
+              title="${title}"
+              @cds-accordion-item-beingtoggled="${onBeforeToggle}"
+              @cds-accordion-item-toggled="${onToggle}">
+              <p>${body}</p>
+            </cds-accordion-item>
+          `
+        )}
       </cds-accordion>
     `;
   },
@@ -174,54 +159,17 @@ export const Controlled = {
         size="${size}"
         ?isFlush="${isFlush}"
         ?disabled="${disabled}">
-        <cds-accordion-item
-          controlled
-          title="Section 1 title"
-          @cds-accordion-item-beingtoggled="${onBeforeToggle}"
-          @cds-accordion-item-toggled="${onToggle}">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </cds-accordion-item>
-        <cds-accordion-item
-          controlled
-          title="Section 2 title"
-          @cds-accordion-item-beingtoggled="${onBeforeToggle}"
-          @cds-accordion-item-toggled="${onToggle}">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </cds-accordion-item>
-        <cds-accordion-item
-          controlled
-          title="Section 3 title"
-          @cds-accordion-item-beingtoggled="${onBeforeToggle}"
-          @cds-accordion-item-toggled="${onToggle}">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </cds-accordion-item>
-        <cds-accordion-item
-          controlled
-          title="Section 4 title"
-          @cds-accordion-item-beingtoggled="${onBeforeToggle}"
-          @cds-accordion-item-toggled="${onToggle}">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </cds-accordion-item>
+        ${storySections.map(
+          ({ title, body }) => html`
+            <cds-accordion-item
+              controlled
+              title="${title}"
+              @cds-accordion-item-beingtoggled="${onBeforeToggle}"
+              @cds-accordion-item-toggled="${onToggle}">
+              <p>${body}</p>
+            </cds-accordion-item>
+          `
+        )}
       </cds-accordion>
     `;
   },

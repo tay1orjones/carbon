@@ -80,50 +80,43 @@ const sharedArgs = {
   },
 };
 
+const storySections = [
+  {
+    title: 'Account overview',
+    body: 'Review usage, active seats, and pending invitations so you understand what will change before updating the plan.',
+  },
+  {
+    title: 'Billing and payments',
+    body: 'Update the corporate card, add backup billing contacts, and download recent invoices for finance.',
+  },
+  {
+    title: 'Email preferences',
+    body: 'Choose which alerts need emails versus in-product notifications so the team only sees what matters.',
+  },
+  {
+    title: (
+      <span>
+        Data exports <em>(titles accept nodes)</em>
+      </span>
+    ),
+    body: 'Schedule weekly CSV exports to your warehouse and confirm who receives a notification when a file is ready.',
+  },
+];
+
+const renderItems = (onHeadingClick, itemProps = {}) =>
+  storySections.map(({ title, body }, index) => (
+    <AccordionItem
+      key={`section-${index}`}
+      title={title}
+      onHeadingClick={onHeadingClick}
+      {...itemProps}>
+      <p>{body}</p>
+    </AccordionItem>
+  ));
+
 export const Default = (args) => {
   const { onHeadingClick, ...restArgs } = args;
-  return (
-    <Accordion {...restArgs}>
-      <AccordionItem title="Section 1 title" onHeadingClick={onHeadingClick}>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
-        </p>
-      </AccordionItem>
-      <AccordionItem title="Section 2 title" onHeadingClick={onHeadingClick}>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
-        </p>
-      </AccordionItem>
-      <AccordionItem title="Section 3 title" onHeadingClick={onHeadingClick}>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
-        </p>
-      </AccordionItem>
-      <AccordionItem
-        onHeadingClick={onHeadingClick}
-        title={
-          <span>
-            Section 4 title (<em>the title can be a node</em>)
-          </span>
-        }>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
-        </p>
-      </AccordionItem>
-    </Accordion>
-  );
+  return <Accordion {...restArgs}>{renderItems(onHeadingClick)}</Accordion>;
 };
 
 Default.args = { ...sharedArgs };
@@ -156,50 +149,7 @@ export const Controlled = (args) => {
       </ButtonSet>
 
       <Accordion {...restArgs}>
-        <AccordionItem
-          title="Section 1 title"
-          open={expandAll}
-          onHeadingClick={onHeadingClick}>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </AccordionItem>
-        <AccordionItem
-          title="Section 2 title"
-          open={expandAll}
-          onHeadingClick={onHeadingClick}>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </AccordionItem>
-        <AccordionItem
-          title="Section 3 title"
-          open={expandAll}
-          onHeadingClick={onHeadingClick}>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </AccordionItem>
-        <AccordionItem
-          title="Section 4 title"
-          open={expandAll}
-          onHeadingClick={onHeadingClick}>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </AccordionItem>
+        {renderItems(onHeadingClick, { open: expandAll })}
       </Accordion>
     </>
   );
@@ -214,40 +164,7 @@ export const _WithLayer = (args) => {
 
   return (
     <WithLayer>
-      <Accordion {...restArgs}>
-        <AccordionItem title="Section 1 title" onHeadingClick={onHeadingClick}>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </AccordionItem>
-        <AccordionItem title="Section 2 title" onHeadingClick={onHeadingClick}>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </AccordionItem>
-        <AccordionItem title="Section 3 title" onHeadingClick={onHeadingClick}>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </AccordionItem>
-        <AccordionItem title="Section 4 title" onHeadingClick={onHeadingClick}>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </AccordionItem>
-      </Accordion>
+      <Accordion {...restArgs}>{renderItems(onHeadingClick)}</Accordion>
     </WithLayer>
   );
 };
