@@ -1,0 +1,155 @@
+name: Bob Bug Triage
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bob-bug-triage-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  triage:
+    if: github.event.issue.type.name == 'Bug'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install Bob Shell
+        env:
+          BOB_SHELL_VERSION: 1.0.6
+          BOB_SHELL_SHA256: 6ec51abec4251d41ec45709030988b90baa659f535fc8d14dd003023dd163a5b
+        run: |
+          bob_shell_archive="${RUNNER_TEMP}/bobshell-${BOB_SHELL_VERSION}.tgz"
+          curl --fail --silent --show-error --location \
+            --output "${bob_shell_archive}" \
+            "https://s3.us-south.cloud-object-storage.appdomain.cloud/bob-shell/bobshell-${BOB_SHELL_VERSION}.tgz"
+          echo "${BOB_SHELL_SHA256}  ${bob_shell_archive}" | sha256sum --check -
+          npm install --global "${bob_shell_archive}"
+          test "$(bob --version)" = "${BOB_SHELL_VERSION}"
+
+      - name: Prepare issue context
+        run: |
+          mkdir -p .bob-triage
+          jq '{
+            repository: .repository.full_name,
+            issue: {
+              number: .issue.number,
+              url: .issue.html_url,
+              title: .issue.title,
+              body: .issue.body,
+              type: .issue.type,
+              author: .issue.user.login
+            }
+          }' "${GITHUB_EVENT_PATH}" > .bob-triage/issue.json
+
+      - name: Generate preliminary triage
+        env:
+          BOBSHELL_API_KEY: ${{ secrets.TAYLORS_BOB_API_KEY }}
+          BOB_TRIAGE_COMMENT_PATH: ${{ runner.temp }}/bob-bug-triage-comment.md
+        run: |
+          bob --accept-license \
+            --auth-method api-key \
+            --chat-mode bug-triage \
+            --hide-intermediary-output \
+            --output-format text \
+            "Follow @/.github/prompts/bob-bug-triage.md to triage @/.bob-triage/issue.json. Return only the comment text." \
+            > "${BOB_TRIAGE_COMMENT_PATH}"
+
+      - name: Validate preliminary triage
+        env:
+          BOB_TRIAGE_COMMENT_PATH: ${{ runner.temp }}/bob-bug-triage-comment.md
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+
+          const path = process.env.BOB_TRIAGE_COMMENT_PATH;
+          const raw = fs.readFileSync(path, 'utf8');
+          const text = raw
+            .replace(/\u001b\[[0-?]*[ -/]*[@-~]/g, '')
+            .replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g, '')
+            .trim();
+          const lines = text.split('\n').filter((line) => line.trim());
+          const words = text.split(/\s+/).filter(Boolean);
+
+          if (!text || text.length > 600 || words.length > 100) {
+            throw new Error('Bob triage must contain 1-600 characters and at most 100 words.');
+          }
+          if (/^#{1,6}\s/m.test(text) || text.includes('```')) {
+            throw new Error('Bob triage must not contain a heading or code fence.');
+          }
+
+          const isBulletList = lines.every((line) => /^[-*]\s+\S/.test(line));
+          if (isBulletList) {
+            if (lines.length < 2 || lines.length > 3) {
+              throw new Error('Bob triage bullet lists must contain 2-3 items.');
+            }
+          } else {
+            if (lines.length !== 1) {
+              throw new Error('Bob triage prose must be a single paragraph.');
+            }
+            const withoutUrls = text.replace(/https?:\/\/\S+/g, (url) => {
+              const punctuation = url.match(/[.!?]+$/)?.[0] ?? '';
+              return `URL${punctuation}`;
+            });
+            const sentences = withoutUrls
+              .split(/(?<=[.!?])\s+/)
+              .filter(Boolean);
+            if (sentences.length > 3) {
+              throw new Error('Bob triage prose must contain at most 3 sentences.');
+            }
+          }
+
+          fs.writeFileSync(path, `${text}\n`);
+          NODE
+
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.BOB_AUTOMATION_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BOB_AUTOMATION_APP_PRIVATE_KEY }}
+          permission-issues: write
+
+      - name: Post preliminary triage
+        env:
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          BOB_TRIAGE_COMMENT_PATH: ${{ runner.temp }}/bob-bug-triage-comment.md
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          comment_payload="${RUNNER_TEMP}/bob-bug-triage-comment.json"
+          jq -n --rawfile body "${BOB_TRIAGE_COMMENT_PATH}" \
+            '{body: "<!-- bob-preliminary-triage -->\n" + $body}' \
+            > "${comment_payload}"
+
+          existing_comment_id="$(
+            gh api --paginate "repos/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments" |
+              jq -r --arg login "${APP_SLUG}[bot]" \
+                '.[] | select(.user.login == $login and (.body | startswith("<!-- bob-preliminary-triage -->"))) | .id' |
+              tail -n 1
+          )"
+
+          if [[ -n "${existing_comment_id}" ]]; then
+            if [[ ! "${existing_comment_id}" =~ ^[0-9]+$ ]]; then
+              echo "Existing Bob triage comment ID is invalid" >&2
+              exit 1
+            fi
+            gh api --silent --method PATCH \
+              "repos/${REPOSITORY}/issues/comments/${existing_comment_id}" \
+              --input "${comment_payload}"
+          else
+            gh api --silent --method POST \
+              "repos/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments" \
+              --input "${comment_payload}"
+          fi
